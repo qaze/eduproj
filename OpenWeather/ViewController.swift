@@ -8,30 +8,46 @@
 
 import UIKit
 
-class MyViewController: UIViewController {
+
+class LoginViewController: UIViewController {
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var loginTitleLabel: UILabel!
+    @IBOutlet weak var passwordTitleLabel: UILabel!
+    @IBOutlet weak var goButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         scrollView.addGestureRecognizer(tapGesture)
+        
+        
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
+        self.goButton.addGestureRecognizer(recognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        animateTitle()
+        animateFields()
+        animateGoButton()
+        animateFieldTitles()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
@@ -46,6 +62,96 @@ class MyViewController: UIViewController {
     
     @objc func keyboardWillHide( notification: Notification ) {
         scrollView.contentInset = .zero
+    }
+    
+    
+    func animateTitle() {
+        titleLabel.transform = CGAffineTransform(translationX: 0, y: -view.bounds.height / 2)
+        UIView.animate(withDuration: 1, 
+                       delay: 1, 
+                       usingSpringWithDamping: 0.5, 
+                       initialSpringVelocity: 0, 
+                       options: .curveEaseInOut, 
+                       animations: { 
+                        self.titleLabel.transform = .identity
+        })
+    }
+    
+    
+    var interactiveAnimator: UIViewPropertyAnimator!
+    
+    @objc func onPan(_ recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            interactiveAnimator 
+                = UIViewPropertyAnimator(duration: 0.5, 
+                                         dampingRatio: 0.5, 
+                                         animations: {
+                                            self.goButton.transform = .init(translationX: 0, y: 200)
+                })
+            interactiveAnimator.pauseAnimation()
+        case .changed:
+            let translation = recognizer.translation(in: self.view)
+            interactiveAnimator.fractionComplete = translation.y / 200
+        case .ended:
+            interactiveAnimator.stopAnimation(true)
+            interactiveAnimator.addAnimations {
+                self.goButton.transform = .identity
+            }
+            
+            interactiveAnimator.startAnimation()
+        default: return
+        }
+    }
+    
+    
+    func animateFieldTitles() {
+        let offset = abs(loginTextField.frame.midY - passwordTextField.frame.midY)
+        loginTitleLabel.transform = CGAffineTransform(translationX: 0, y: offset)
+        passwordTitleLabel.transform = CGAffineTransform(translationX: 0, y: -offset)
+        
+        UIView.animateKeyframes(withDuration: 1, 
+                                delay: 1, 
+                                options: [.calculationModeCubicPaced], 
+                                animations: {
+                                    UIView.addKeyframe(withRelativeStartTime: 0, 
+                                                       relativeDuration: 0.5) { 
+                                                        self.loginTitleLabel.transform = CGAffineTransform(translationX: 150, y: 50)
+                                                        self.passwordTitleLabel.transform = CGAffineTransform(translationX: -150, y: -50)
+                                    }
+                                    
+                                    UIView.addKeyframe(withRelativeStartTime: 0.5, 
+                                                       relativeDuration: 0.5) { 
+                                                        self.loginTitleLabel.transform = .identity
+                                                        self.passwordTitleLabel.transform = .identity
+                                    }
+        })
+    }   
+    
+    func animateFields() {
+        let fadeInAnimation = CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.fromValue = 0
+        fadeInAnimation.toValue = 1
+        fadeInAnimation.duration = 1
+        fadeInAnimation.beginTime = CACurrentMediaTime() + 1
+        fadeInAnimation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        fadeInAnimation.fillMode = .backwards
+        loginTextField.layer.add(fadeInAnimation, forKey: nil)
+        passwordTextField.layer.add(fadeInAnimation, forKey: nil)
+    }
+    
+    func animateGoButton() {
+        let scaleAnimation = CASpringAnimation(keyPath: "transform.scale")
+        scaleAnimation.fromValue = 0
+        scaleAnimation.toValue = 1
+        
+        scaleAnimation.stiffness = 200
+        scaleAnimation.mass = 2
+        
+        scaleAnimation.beginTime = CACurrentMediaTime() + 1
+        scaleAnimation.fillMode = .backwards
+        
+        goButton.layer.add(scaleAnimation, forKey: nil)
     }
     
     @objc func hideKeyboard() {
@@ -69,7 +175,7 @@ class MyViewController: UIViewController {
             
             print("Login \(login) and Password \(password)")
             
-            if login == "admin", password == "pwd123" {
+            if login == "admin", password == "admin" {
                 print("Успешная авторизация")
                 return true
             }

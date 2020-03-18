@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,10 +13,26 @@
 		A475D9EB23DF58AE00886BC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A475D9E923DF58AE00886BC7 /* Main.storyboard */; };
 		A475D9ED23DF58B000886BC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A475D9EC23DF58B000886BC7 /* Assets.xcassets */; };
 		A475D9F023DF58B000886BC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A475D9EE23DF58B000886BC7 /* LaunchScreen.storyboard */; };
-		A4F7F20423E345810068E02B /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7F20323E345810068E02B /* SecondViewController.swift */; };
+		A4A081E0241B879F009FDC7A /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081DF241B879F009FDC7A /* CitiesViewController.swift */; };
+		A4A081E2241B8848009FDC7A /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081E1241B8848009FDC7A /* WeatherService.swift */; };
+		A4A081E4241B8C55009FDC7A /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081E3241B8C55009FDC7A /* CityCell.swift */; };
+		A4A081E6241B8CC8009FDC7A /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081E5241B8CC8009FDC7A /* WeatherViewController.swift */; };
+		A4A081E8241B8CD7009FDC7A /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081E7241B8CD7009FDC7A /* WeatherCell.swift */; };
+		A4A081EA241B8D04009FDC7A /* WeatherLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081E9241B8D04009FDC7A /* WeatherLayout.swift */; };
+		A4A081EC241B958B009FDC7A /* VkLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A081EB241B958B009FDC7A /* VkLoginViewController.swift */; };
+		A4A68885240A543500729EB6 /* CustomSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A68884240A543500729EB6 /* CustomSegue.swift */; };
+		A4A68887240A5A6F00729EB6 /* CustomAnimationTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A68886240A5A6F00729EB6 /* CustomAnimationTransitioning.swift */; };
+		A4A68889240A5FF500729EB6 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A68888240A5FF500729EB6 /* CustomNavigationController.swift */; };
+		A4A6888B240A611600729EB6 /* CustomPopPushTranitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A6888A240A611600729EB6 /* CustomPopPushTranitioning.swift */; };
+		A4A6888D240A65F100729EB6 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A6888C240A65F100729EB6 /* CustomInteractiveTransition.swift */; };
+		A4C3A364240EC6A500C9A943 /* DotAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3A363240EC6A500C9A943 /* DotAnimator.swift */; };
+		A4C3A366240ED21700C9A943 /* PhotoSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3A365240ED21700C9A943 /* PhotoSwipeViewController.swift */; };
+		CA994DB072C98B3E40051FF7 /* Pods_OpenWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420439D7CF7AD11BC03FCB84 /* Pods_OpenWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		420439D7CF7AD11BC03FCB84 /* Pods_OpenWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		64ADFB9D7782E7FA2938733E /* Pods-OpenWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenWeather.release.xcconfig"; path = "Target Support Files/Pods-OpenWeather/Pods-OpenWeather.release.xcconfig"; sourceTree = "<group>"; };
 		A475D9E023DF58AE00886BC7 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A475D9E323DF58AE00886BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A475D9E523DF58AE00886BC7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -25,7 +41,24 @@
 		A475D9EC23DF58B000886BC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A475D9EF23DF58B000886BC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A475D9F123DF58B000886BC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A4F7F20323E345810068E02B /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		A4A081DF241B879F009FDC7A /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
+		A4A081E1241B8848009FDC7A /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		A4A081E3241B8C55009FDC7A /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
+		A4A081E5241B8CC8009FDC7A /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		A4A081E7241B8CD7009FDC7A /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
+		A4A081E9241B8D04009FDC7A /* WeatherLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLayout.swift; sourceTree = "<group>"; };
+		A4A081EB241B958B009FDC7A /* VkLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VkLoginViewController.swift; sourceTree = "<group>"; };
+		A4A68884240A543500729EB6 /* CustomSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegue.swift; sourceTree = "<group>"; };
+		A4A68886240A5A6F00729EB6 /* CustomAnimationTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationTransitioning.swift; sourceTree = "<group>"; };
+		A4A68888240A5FF500729EB6 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		A4A6888A240A611600729EB6 /* CustomPopPushTranitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopPushTranitioning.swift; sourceTree = "<group>"; };
+		A4A6888C240A65F100729EB6 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
+		A4A8B489241CBF99004D7833 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/Alamofire-eecacaalearvnhbljakvdaiaqbko/Build/Products/Release-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		A4A8B48D241CBFD1004D7833 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/Alamofire-eecacaalearvnhbljakvdaiaqbko/Build/Products/Release-iphonesimulator/Alamofire.framework"; sourceTree = "<group>"; };
+		A4A8B494241CC2DB004D7833 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
+		A4C3A363240EC6A500C9A943 /* DotAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotAnimator.swift; sourceTree = "<group>"; };
+		A4C3A365240ED21700C9A943 /* PhotoSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSwipeViewController.swift; sourceTree = "<group>"; };
+		E4946A53968746F19F4F239E /* Pods-OpenWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenWeather.debug.xcconfig"; path = "Target Support Files/Pods-OpenWeather/Pods-OpenWeather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +66,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA994DB072C98B3E40051FF7 /* Pods_OpenWeather.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58EC1401C2D267C98ED24E0E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E4946A53968746F19F4F239E /* Pods-OpenWeather.debug.xcconfig */,
+				64ADFB9D7782E7FA2938733E /* Pods-OpenWeather.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		A475D9D723DF58AE00886BC7 = {
 			isa = PBXGroup;
 			children = (
 				A475D9E223DF58AE00886BC7 /* OpenWeather */,
 				A475D9E123DF58AE00886BC7 /* Products */,
+				B2D6147D9A6396F07875153C /* Frameworks */,
+				58EC1401C2D267C98ED24E0E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,9 +110,33 @@
 				A475D9EC23DF58B000886BC7 /* Assets.xcassets */,
 				A475D9EE23DF58B000886BC7 /* LaunchScreen.storyboard */,
 				A475D9F123DF58B000886BC7 /* Info.plist */,
-				A4F7F20323E345810068E02B /* SecondViewController.swift */,
+				A4A68884240A543500729EB6 /* CustomSegue.swift */,
+				A4A68886240A5A6F00729EB6 /* CustomAnimationTransitioning.swift */,
+				A4A68888240A5FF500729EB6 /* CustomNavigationController.swift */,
+				A4A6888A240A611600729EB6 /* CustomPopPushTranitioning.swift */,
+				A4A6888C240A65F100729EB6 /* CustomInteractiveTransition.swift */,
+				A4C3A363240EC6A500C9A943 /* DotAnimator.swift */,
+				A4C3A365240ED21700C9A943 /* PhotoSwipeViewController.swift */,
+				A4A081DF241B879F009FDC7A /* CitiesViewController.swift */,
+				A4A081E1241B8848009FDC7A /* WeatherService.swift */,
+				A4A081E3241B8C55009FDC7A /* CityCell.swift */,
+				A4A081E5241B8CC8009FDC7A /* WeatherViewController.swift */,
+				A4A081E7241B8CD7009FDC7A /* WeatherCell.swift */,
+				A4A081E9241B8D04009FDC7A /* WeatherLayout.swift */,
+				A4A081EB241B958B009FDC7A /* VkLoginViewController.swift */,
 			);
 			path = OpenWeather;
+			sourceTree = "<group>";
+		};
+		B2D6147D9A6396F07875153C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A4A8B489241CBF99004D7833 /* Alamofire.framework */,
+				A4A8B48D241CBFD1004D7833 /* Alamofire.framework */,
+				A4A8B494241CC2DB004D7833 /* Alamofire.framework */,
+				420439D7CF7AD11BC03FCB84 /* Pods_OpenWeather.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,9 +146,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A475D9F423DF58B000886BC7 /* Build configuration list for PBXNativeTarget "OpenWeather" */;
 			buildPhases = (
+				271435F8DB681FFB9A6CAF0A /* [CP] Check Pods Manifest.lock */,
 				A475D9DC23DF58AE00886BC7 /* Sources */,
 				A475D9DD23DF58AE00886BC7 /* Frameworks */,
 				A475D9DE23DF58AE00886BC7 /* Resources */,
+				56F64DD1BAFE6BAA97366683 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -136,15 +207,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		271435F8DB681FFB9A6CAF0A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenWeather-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		56F64DD1BAFE6BAA97366683 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenWeather/Pods-OpenWeather-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenWeather/Pods-OpenWeather-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenWeather/Pods-OpenWeather-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A475D9DC23DF58AE00886BC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4A081E0241B879F009FDC7A /* CitiesViewController.swift in Sources */,
 				A475D9E823DF58AE00886BC7 /* ViewController.swift in Sources */,
+				A4A081E8241B8CD7009FDC7A /* WeatherCell.swift in Sources */,
 				A475D9E423DF58AE00886BC7 /* AppDelegate.swift in Sources */,
-				A4F7F20423E345810068E02B /* SecondViewController.swift in Sources */,
+				A4A081E4241B8C55009FDC7A /* CityCell.swift in Sources */,
+				A4A68889240A5FF500729EB6 /* CustomNavigationController.swift in Sources */,
+				A4A081EC241B958B009FDC7A /* VkLoginViewController.swift in Sources */,
+				A4A081E2241B8848009FDC7A /* WeatherService.swift in Sources */,
+				A4C3A366240ED21700C9A943 /* PhotoSwipeViewController.swift in Sources */,
+				A4A68885240A543500729EB6 /* CustomSegue.swift in Sources */,
 				A475D9E623DF58AE00886BC7 /* SceneDelegate.swift in Sources */,
+				A4A6888B240A611600729EB6 /* CustomPopPushTranitioning.swift in Sources */,
+				A4C3A364240EC6A500C9A943 /* DotAnimator.swift in Sources */,
+				A4A081EA241B8D04009FDC7A /* WeatherLayout.swift in Sources */,
+				A4A081E6241B8CC8009FDC7A /* WeatherViewController.swift in Sources */,
+				A4A6888D240A65F100729EB6 /* CustomInteractiveTransition.swift in Sources */,
+				A4A68887240A5A6F00729EB6 /* CustomAnimationTransitioning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,10 +412,15 @@
 		};
 		A475D9F523DF58B000886BC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4946A53968746F19F4F239E /* Pods-OpenWeather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZNZ32W27XU;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -305,10 +436,15 @@
 		};
 		A475D9F623DF58B000886BC7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64ADFB9D7782E7FA2938733E /* Pods-OpenWeather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZNZ32W27XU;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
