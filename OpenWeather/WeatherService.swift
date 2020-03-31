@@ -9,124 +9,36 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import RealmSwift
 
-class WeatherResponse: Decodable {
-    var list: [Weather]
+class City: Object {
+    @objc dynamic var name: String = ""
+    @objc dynamic var id: Int = 0
+    var weathers: List<Weather> = .init()
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }
 
-//struct MainInfo: Codable {
-//    var temp = 0.0
-//    var pressure = 0.0
-//    var humidity = 0
-//}
-//
-//struct WeatherInfo: Codable {
-//    var name = ""
-//    var icon = ""
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case name = "main"
-//        case icon
-//    }
-//}
-//
-//struct WindInfo: Codable {
-//    var speed = 0.0
-//    var deg = 0.0
-//}
-//
-//struct Weather: Codable {
-//    var date = 0.0
-//    var main: MainInfo
-//    var weather: [WeatherInfo]
-//    var wind: WindInfo
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case date = "dt"
-//        case main
-//        case weather
-//        case wind
-//    }
-//}
-
-class Weather: Decodable {
-    var date = 0.0
-    var temp = 0.0
-    var pressure = 0.0
-    var humidity = 0
-    var weatherName = ""
-    var weatherIcon = ""
-    var windSpeed = 0.0
-    var windDegrees = 0.0
-    
-    enum CodingKeys: String, CodingKey {
-        case date = "dt"
-        case main
-        case weather
-        case wind
-    }
-    
-    enum MainKeys: String, CodingKey {
-        case temp
-        case pressure
-        case humidity
-    }
-    
-    enum WeatherKeys: String, CodingKey {
-        case main
-        case icon
-    }
-    
-    enum WindKeys: String, CodingKey {
-        case speed
-        case deg
-    }
-    
-    
-    convenience required init(from decoder: Decoder) throws {
-        self.init()
-        
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.date = try values.decode(Double.self, forKey: .date)
-        
-        let mainValues = try values.nestedContainer(keyedBy: MainKeys.self, forKey: .main)
-        self.temp = try mainValues.decode(Double.self, forKey: .temp)
-        self.pressure = try mainValues.decode(Double.self, forKey: .pressure)
-        self.humidity = try mainValues.decode(Int.self, forKey: .humidity)
-        
-        var weatherValues = try values.nestedUnkeyedContainer(forKey: .weather)
-        let firstWeatherValues = try weatherValues.nestedContainer(keyedBy: WeatherKeys.self)
-        self.weatherName = try firstWeatherValues.decode(String.self, forKey: .main)
-        self.weatherIcon = try firstWeatherValues.decode(String.self, forKey: .icon)
-        
-        let windValues = try values.nestedContainer(keyedBy: WindKeys.self, forKey: .wind)
-        self.windSpeed = try windValues.decode(Double.self, forKey: .speed)
-        self.windDegrees = try windValues.decode(Double.self, forKey: .deg)
-    }
-    
+class Weather: Object {
+    @objc dynamic var date = 0.0
+    @objc dynamic var temp = 0.0
+    @objc dynamic var pressure = 0.0
+    @objc dynamic var humidity = 0
+    @objc dynamic var weatherName = ""
+    @objc dynamic var weatherIcon = ""
+    @objc dynamic var windSpeed = 0.0
+    @objc dynamic var windDegrees = 0.0
 }
 
 protocol WeatherServiceProtocol {
-    func loadWeatherData( city: String, completion: @escaping ([Weather]) -> Void )
+    func loadWeatherData( city: String, completion: @escaping () -> Void )
 }
 
 
 protocol WeatherParser {
     func parse( data: Data ) -> [Weather]
-}
-
-
-class CodableParser: WeatherParser {
-    func parse(data: Data) -> [Weather] {
-        do {
-            let weather = try JSONDecoder().decode(WeatherResponse.self, from: data).list
-            return weather
-        }
-        catch {
-            print(error.localizedDescription)
-            return []
-        }
-    }
 }
 
 
@@ -192,7 +104,7 @@ class URLSessionWeatherService: WeatherServiceProtocol {
         self.parser = parser
     }
     
-    func loadWeatherData( city: String, completion: @escaping ([Weather]) -> Void ) {
+    func loadWeatherData( city: String, completion: @escaping () -> Void ) {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
@@ -218,7 +130,7 @@ class URLSessionWeatherService: WeatherServiceProtocol {
                 
                 var weathers: [Weather] = self.parser.parse(data: data)
                 print(weathers)
-                completion(weathers)
+                completion()
             }
             
             task.resume()
@@ -271,11 +183,28 @@ class AlamofireWeatherService: WeatherServiceProtocol {
     let baseUrl = "http://api.openweathermap.org"
     let parser: WeatherParser
     
+    func save( weathers: [Weather], for cityName: String ) {
+        do {
+            let realm = try Realm()
+            guard let city = realm.objects(City.self).filter("name = %@", cityName).first else { return }
+            realm.beginWrite()
+            if city.weathers.count > 0 {
+                realm.delete(city.weathers)
+            }
+            
+            city.weathers.append(objectsIn: weathers)
+            try realm.commitWrite()
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     init(parser: WeatherParser) {
         self.parser = parser
     }
     
-    func loadWeatherData( city: String, completion: @escaping ([Weather]) -> Void ) {
+    func loadWeatherData( city: String, completion: @escaping () -> Void ) {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
         let path = "/data/2.5/forecast"
         
@@ -295,9 +224,10 @@ class AlamofireWeatherService: WeatherServiceProtocol {
                 guard let data = response.data else { return }
                 
                 var weathers: [Weather] = self.parser.parse(data: data)
+                self.save(weathers: weathers, for: city)
                 print(weathers)
                 
-                completion(weathers)
+                completion()
             }
         }
     }

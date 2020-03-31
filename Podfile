@@ -4,4 +4,6 @@ use_frameworks!
 target 'OpenWeather' do
 	pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'RealmSwift'
+  pod 'SwiftKeychainWrapper'
 end

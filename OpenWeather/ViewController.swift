@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
@@ -187,8 +187,32 @@ class LoginViewController: UIViewController {
         return false
     }
     
+    func createCities() {
+        let cities = [ "Moscow", "Voronezh", "Kazan", "Novosibirsk", "Samara", "Ufa" ]
+            .enumerated().map { (offset, value) -> City in
+                let city = City()
+                city.id = offset
+                city.name = value
+                return city
+        }
+        
+        do {
+            Realm.Configuration.defaultConfiguration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm()
+            print(realm.configuration.fileURL)
+            realm.beginWrite()
+            realm.add(cities, update: .modified)
+            try realm.commitWrite()
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if checkLogin() {
+            createCities()
             return true
         }
         else {

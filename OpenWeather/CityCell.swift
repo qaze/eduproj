@@ -11,4 +11,5 @@ import UIKit
 class CityCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    var city: City?
 }

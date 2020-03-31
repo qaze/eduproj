@@ -7,22 +7,16 @@
 //
 
 import UIKit
+import RealmSwift
 
-struct City : Comparable {
-    static func < (lhs: City, rhs: City) -> Bool {
-        return lhs.name < rhs.name
-    }
-    
-    let name: String
-    let image: UIImage
-}
+
 
 class CitiesViewController: UITableViewController {
-    var cities = [ "Moscow", "Voronezh", "Kazan", "Krasnoyarsk", "Samara", "Ufa" ].map{ City(name: $0, image: UIImage(systemName: "sun.max")!) }
+    var cities: [City] = []
     
     lazy var sections: [[City]] = {
         // Отсортированные города
-        let sortedCities = cities.sorted()
+        let sortedCities = cities
         
         // Разбиваем по группам
         let grouppedArray = sortedCities.reduce([[City]]()) { (result, element) -> [[City]] in
@@ -65,6 +59,13 @@ class CitiesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        do{
+            let realm = try Realm()
+            cities = Array(realm.objects(City.self).sorted(byKeyPath: "id"))
+        }
+        catch {
+            print(error.localizedDescription)
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,7 +103,8 @@ class CitiesViewController: UITableViewController {
         
         let city = sections[indexPath.section][indexPath.row]
         cell.nameLabel.text = city.name
-        cell.avatarImageView.image = city.image
+        cell.city = city
+//        cell.avatarImageView.image = city.image
         
         return cell
     }
@@ -138,6 +140,7 @@ class CitiesViewController: UITableViewController {
                 else { return }
             
             collectionViewController.name = cell.nameLabel.text
+            collectionViewController.city = cell.city
         }
     }
     

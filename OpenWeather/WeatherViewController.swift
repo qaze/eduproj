@@ -7,22 +7,28 @@
 //
 
 import UIKit
+import RealmSwift
 
 class WeatherViewController: UICollectionViewController {
     let weatherService: WeatherServiceProtocol = AlamofireWeatherService(parser: SwiftyJSONParser())
     
     var name: String?
     var weatherList: [Weather] = []
-    
+    var city: City? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if let name = name {
-            weatherService.loadWeatherData(city: name) { (weathers) in
-                self.weatherList = weathers
+            weatherService.loadWeatherData(city: name) {
+                self.loadData()
                 self.collectionView.reloadData()
             }
         }
+    }
+    
+    func loadData() {
+        guard let city = city else { return }
+        weatherList = Array(city.weathers)
     }
     
     
