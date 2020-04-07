@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -50,7 +50,7 @@
                                         <rect key="frame" x="192" y="575.33333333333337" width="30" height="30"/>
                                         <state key="normal" title="Go"/>
                                         <connections>
-                                            <segue destination="ANl-Du-m0w" kind="presentation" modalPresentationStyle="fullScreen" id="haL-Kh-z9R"/>
+                                            <action selector="goNext:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nRV-an-wrZ"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="enp-c2-fja">
@@ -102,6 +102,7 @@
                         <outlet property="passwordTitleLabel" destination="8Z3-2h-p5g" id="Rs0-8H-x3U"/>
                         <outlet property="scrollView" destination="I2g-Ow-a6I" id="3lI-Tg-acP"/>
                         <outlet property="titleLabel" destination="w4b-R6-8gY" id="BYn-7L-FT5"/>
+                        <segue destination="ANl-Du-m0w" kind="presentation" identifier="next" modalPresentationStyle="fullScreen" id="w39-wI-FuD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -137,47 +138,11 @@
                     </tabBar>
                     <connections>
                         <segue destination="7rq-bs-MwN" kind="relationship" relationship="viewControllers" id="N3m-yu-BaV"/>
-                        <segue destination="Up9-j0-3cC" kind="relationship" relationship="viewControllers" id="Qmp-hJ-Bds"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p2l-OQ-7G1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2751" y="54"/>
-        </scene>
-        <!--Item-->
-        <scene sceneID="jeA-vf-KTY">
-            <objects>
-                <viewController id="Up9-j0-3cC" customClass="VkLoginViewController" customModule="OpenWeather" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="6ST-HO-EWY">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oEs-Gm-Pqc">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="aI8-QV-4Mp" firstAttribute="trailing" secondItem="oEs-Gm-Pqc" secondAttribute="trailing" id="3Wl-Yl-lu6"/>
-                            <constraint firstItem="oEs-Gm-Pqc" firstAttribute="top" secondItem="aI8-QV-4Mp" secondAttribute="top" id="MwA-u6-CwN"/>
-                            <constraint firstItem="aI8-QV-4Mp" firstAttribute="bottom" secondItem="oEs-Gm-Pqc" secondAttribute="bottom" id="ueD-f3-Xi4"/>
-                            <constraint firstItem="oEs-Gm-Pqc" firstAttribute="leading" secondItem="aI8-QV-4Mp" secondAttribute="leading" id="yXt-Ds-Axg"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="aI8-QV-4Mp"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="B2H-FY-7xk"/>
-                    <connections>
-                        <outlet property="webView" destination="oEs-Gm-Pqc" id="B5z-bw-sEr"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jkx-YG-JjE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2751" y="765"/>
         </scene>
         <!--Cities View Controller-->
         <scene sceneID="qoO-FQ-J9e">
@@ -228,14 +193,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="c7i-kO-cXD">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="TP9-4S-XUs"/>
-                            <barButtonItem systemItem="trash" id="ydM-51-Ndd">
-                                <connections>
-                                    <action selector="deleteTapped:" destination="UZK-Zs-er7" id="E1b-rS-FXf"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="TP9-4S-XUs">
+                            <connections>
+                                <action selector="addCityTapped:" destination="UZK-Zs-er7" id="xCi-Qb-ASC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ggz-Sy-DZH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -260,17 +222,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iHh-6d-XUn">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
+                                            <rect key="frame" x="5" y="5" width="118" height="118"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="iHh-6d-XUn" secondAttribute="height" multiplier="1:1" id="BZF-VU-3P0"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8e-BV-BjQ">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
+                                            <rect key="frame" x="5" y="5" width="118" height="118"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJO-hE-GeO">
-                                                    <rect key="frame" x="-6" y="-4" width="52" height="48"/>
+                                                    <rect key="frame" x="33" y="35" width="52" height="48"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -314,6 +276,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="square.and.arrow.down" catalog="system" width="60" height="64"/>
+        <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
     </resources>
 </document>

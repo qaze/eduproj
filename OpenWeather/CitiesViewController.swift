@@ -8,63 +8,59 @@
 
 import UIKit
 import RealmSwift
+import FirebaseDatabase
 
 
 
 class CitiesViewController: UITableViewController {
-    var cities: [City] = []
+    var sections: [Results<City>] = []
+    var tokens: [NotificationToken] = []
+    var requestHandler: UInt = 0
     
-    lazy var sections: [[City]] = {
-        // Отсортированные города
-        let sortedCities = cities
-        
-        // Разбиваем по группам
-        let grouppedArray = sortedCities.reduce([[City]]()) { (result, element) -> [[City]] in
-            // result - это массив который мы заполняем нашими секциями - по сути массив массивов City. Изначально пустой
-            // element - текущий обрабатываемый city
-            // Если последнего элемента нет - то вовзращаем последовательность которая содержит массив с текущим city 
-            guard var last = result.last else { return [[element]] }
-            
-            var collection = result
-            // Берем первую букву имени города
-            let firstCityLetter = element.name.first
-            
-            // Берем последний массив из нашего массива массивов
-            let lastAddedSection = result.last
-            
-            // Берем первый city из последней секции (массива)
-            let firstCityInLastSection = lastAddedSection?.first
-            
-            // Берем первую букву из названия этого города
-            let firstLetterOfLastAddedSection = firstCityInLastSection?.name.first
-            
-            // Сравниваем совпадают ли первые буквы текущего названия города и названия города из предыдущей секции
-            // Если да то добавляем наш город в последнюю секцию
-            if firstCityLetter == firstLetterOfLastAddedSection {
-                last.append(element)
-                collection[collection.count - 1] = last
-            }
-            else {
-                // Если нет то добавляем новую секцию(массив) которая уже содержит наш текущий элемент 
-                collection.append([element])
-            }
-            
-            
-            // Возвращаем отредактированный массив массивов
-            return collection
-        }
-        
-        return grouppedArray
-    }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        do{
+    func prepareSections() {
+        do {
             let realm = try Realm()
-            cities = Array(realm.objects(City.self).sorted(byKeyPath: "id"))
+            let citiesLetters = Array( Set( realm.objects(City.self).compactMap{ $0.name.first?.lowercased() } ) ).sorted()
+            sections = citiesLetters.map{ realm.objects(City.self).filter("name BEGINSWITH[c] %s", $0) }
+            tokens.removeAll()
+            sections.enumerated().forEach{ observeChanges(for: $0.offset, results: $0.element) }
+            tableView.reloadData()
         }
         catch {
             print(error.localizedDescription)
+        }
+        
+        
+    }
+    
+    func observeChanges(for section: Int, results: Results<City>) {
+        tokens.append( results.observe { (changes) in
+            switch changes {
+            case .initial:
+                self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+                
+            case .update(_, let deletions, let insertions, let modifications):
+                self.tableView.beginUpdates()
+                self.tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: section) }, with: .automatic)
+                self.tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: section) }, with: .automatic)
+                self.tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: section) }, with: .automatic)
+                self.tableView.endUpdates()
+                
+            case .error(let error):
+                print(error.localizedDescription)
+            }
+        })
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        prepareSections()
+        
+        let db = Database.database().reference()
+        requestHandler = db.child("cities").observe(.value) { (snapshot) in
+            guard let cities = snapshot.value as? [String] else { return }
+            cities.enumerated().forEach{ self.addCity(with: $0.element, withID: $0.offset) }
         }
     }
     
@@ -104,33 +100,62 @@ class CitiesViewController: UITableViewController {
         let city = sections[indexPath.section][indexPath.row]
         cell.nameLabel.text = city.name
         cell.city = city
-//        cell.avatarImageView.image = city.image
+        //        cell.avatarImageView.image = city.image
         
         return cell
     }
     
-    @IBAction func deleteTapped(_ sender: Any) {
-        guard var first = sections.first, first.count > 0 else { return }
-        var arrayToDelete = [IndexPath]()
-        if first.count > 0 {
-            first.remove(at: 0)
-            arrayToDelete.append(.init(row: 0, section: 0))
+    
+    func addCity( with name: String, withID : Int? = nil ) -> Int {
+        do {
+            let realm = try Realm()
+            let newCity = City()
+            newCity.name = name
+            newCity.id = (realm.objects(City.self).max(ofProperty: "id") as Int? ?? 0) + 1
+            
+            if let ownId = withID {
+                newCity.id = ownId
+            }
+            realm.beginWrite()
+            
+            realm.add(newCity, update: .modified)
+            
+            try realm.commitWrite()
+            
+            if let firstLetter = name.first?.uppercased(),
+                let currentLetters = sectionIndexTitles(for: tableView),
+                !currentLetters.contains(firstLetter) {
+                prepareSections()
+            }
+            
+            return newCity.id
+        }
+        catch {
+            print(error.localizedDescription)
+            return -1
+        }
+    }
+    
+    @IBAction func addCityTapped(_ sender: UITabBarItem) {
+        let alertController = UIAlertController(title: "Введите город", message: nil, preferredStyle: .alert)
+        alertController.addTextField(configurationHandler: nil)
+        
+        let confirmAction = UIAlertAction(title: "Добавить", style: .default) { (action) in
+            guard let name = alertController.textFields?[0].text else { return }
+            let cleared = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if !cleared.isEmpty {
+                let newId = self.addCity(with: name)
+                
+                Database.database().reference().child("cities").updateChildValues(["\(newId)": name])
+            }
         }
         
-        if first.count > 0 {
-            first.remove(at: 0)
-            arrayToDelete.append(.init(row: 1, section: 0))
-        }
-        if first.count == 0 {
-            sections.remove(at: 0)
-            tableView.deleteSections(.init(integer: 0), with: .fade)
-            tableView.reloadSectionIndexTitles()
-        }
-        else {
-            sections[0] = first
-            tableView.deleteRows(at: arrayToDelete, with: .fade)
-        }
+        alertController.addAction(confirmAction)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
         
+        present(alertController, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -144,4 +169,21 @@ class CitiesViewController: UITableViewController {
         }
     }
     
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let city = sections[indexPath.section][indexPath.row]
+        
+        if editingStyle == .delete {
+            do {
+                let realm = try Realm()
+                realm.beginWrite()
+                realm.delete(city.weathers)
+                realm.delete(city)
+                try realm.commitWrite()
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

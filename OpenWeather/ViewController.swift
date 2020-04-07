@@ -8,6 +8,12 @@
 
 import UIKit
 import RealmSwift
+import FirebaseAuth
+import FirebaseAnalytics
+
+class Test : Object {
+    @objc dynamic var count = 0
+}
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
@@ -27,7 +33,8 @@ class LoginViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         scrollView.addGestureRecognizer(tapGesture)
         
-        
+        PurchaseManager.shared.addListener(listener: self)
+        titleLabel.isHidden = true
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
         self.goButton.addGestureRecognizer(recognizer)
     }
@@ -168,23 +175,19 @@ class LoginViewController: UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    
-    func checkLogin() -> Bool {
-        if let login = loginTextField.text, 
-            let password = passwordTextField.text {
-            
-            print("Login \(login) and Password \(password)")
-            
-            if login == "admin", password == "admin" {
-                print("Успешная авторизация")
-                return true
-            }
-            else {
-                print("Не самая успешная авторизация")
-                return false
-            }
-        }
-        return false
+    @IBAction func goNext(_ sender: Any) {
+        PurchaseManager.shared.makePayment(product: .disable_ads)
+        
+//        Analytics.logEvent("goNextClicked", parameters: [:])
+//        guard let email = loginTextField.text, let password = passwordTextField.text else { return }
+//        
+//        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+//            print(result?.user.uid)
+//            
+//            if result?.user != nil {
+//                self.performSegue(withIdentifier: "next", sender: self)
+//            }
+//        }
     }
     
     func createCities() {
@@ -209,15 +212,12 @@ class LoginViewController: UIViewController {
         }
         
     }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if checkLogin() {
-            createCities()
-            return true
-        }
-        else {
-            showAnauthorizedError()
-            return false
+}
+
+extension LoginViewController: PurchaseListener {
+    func productBought(product: Products) {
+        if product == .disable_ads {
+            titleLabel.isHidden = false
         }
     }
 }

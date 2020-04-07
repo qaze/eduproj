@@ -33,7 +33,7 @@ class Weather: Object {
 }
 
 protocol WeatherServiceProtocol {
-    func loadWeatherData( city: String, completion: @escaping () -> Void )
+    func loadWeatherData( city: String)
 }
 
 
@@ -104,7 +104,7 @@ class URLSessionWeatherService: WeatherServiceProtocol {
         self.parser = parser
     }
     
-    func loadWeatherData( city: String, completion: @escaping () -> Void ) {
+    func loadWeatherData( city: String ) {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
@@ -123,14 +123,13 @@ class URLSessionWeatherService: WeatherServiceProtocol {
         
         do {
             let request = try URLRequest(url: components.url!, method: .get)
-            let task = session.dataTask(with: request) { [completion] (data, response, error) in
+            let task = session.dataTask(with: request) { (data, response, error) in
                 guard let data = data else {
                     return
                 }
                 
                 var weathers: [Weather] = self.parser.parse(data: data)
                 print(weathers)
-                completion()
             }
             
             task.resume()
@@ -204,7 +203,7 @@ class AlamofireWeatherService: WeatherServiceProtocol {
         self.parser = parser
     }
     
-    func loadWeatherData( city: String, completion: @escaping () -> Void ) {
+    func loadWeatherData( city: String ) {
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
         let path = "/data/2.5/forecast"
         
@@ -216,7 +215,7 @@ class AlamofireWeatherService: WeatherServiceProtocol {
         
         let url = baseUrl + path
         
-        AF.request(url, parameters: paramaters).responseJSON { [completion] (response) in
+        AF.request(url, parameters: paramaters).responseJSON { (response) in
             if let error = response.error {
                 print(error)
             }
@@ -226,8 +225,6 @@ class AlamofireWeatherService: WeatherServiceProtocol {
                 var weathers: [Weather] = self.parser.parse(data: data)
                 self.save(weathers: weathers, for: city)
                 print(weathers)
-                
-                completion()
             }
         }
     }

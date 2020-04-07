@@ -6,4 +6,8 @@ target 'OpenWeather' do
   pod 'SwiftyJSON'
   pod 'RealmSwift'
   pod 'SwiftKeychainWrapper'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Database'
 end
