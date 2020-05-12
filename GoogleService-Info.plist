@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>792389577877-c72s0bfoc24qkplno4ftbn6sk2q3hopb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.792389577877-c72s0bfoc24qkplno4ftbn6sk2q3hopb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBI8PYP6yEeLkwFARzAOB1mXuP_Zse7hM4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>792389577877</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.nrodionov.OpenWeather</string>
+	<key>PROJECT_ID</key>
+	<string>openweather-d1ce2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>openweather-d1ce2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:792389577877:ios:6b58180178256cb1b2ff9c</string>
+	<key>DATABASE_URL</key>
+	<string>https://openweather-d1ce2.firebaseio.com</string>
+</dict>
+</plist>

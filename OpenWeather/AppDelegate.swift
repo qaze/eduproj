@@ -9,19 +9,32 @@
 import UIKit
 import Firebase
 
+/**
+ main() {
+    while(True) { // RunLoop
+        autoreleasepool {
+            UIApplication.touches()
+            UIApplication.selector()
+        }
+    }
+ }
+ */
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    let queue = DispatchQueue(label: "my_queue", qos: .background)
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
         PurchaseManager.shared.prepare()
+        
+        
         
         return true
     }
-
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

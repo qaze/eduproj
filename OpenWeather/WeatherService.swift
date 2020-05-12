@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import RealmSwift
+import PromiseKit
 
 class City: Object {
     @objc dynamic var name: String = ""
@@ -33,7 +34,8 @@ class Weather: Object {
 }
 
 protocol WeatherServiceProtocol {
-    func loadWeatherData( city: String)
+    func loadWeatherData( city: String ) -> Promise<String>
+    func loadImageData( for path: String ) -> Promise<UIImage>
 }
 
 
@@ -41,104 +43,6 @@ protocol WeatherParser {
     func parse( data: Data ) -> [Weather]
 }
 
-
-class SerializerParser: WeatherParser {
-    func parse(data: Data) -> [Weather] {
-        do{
-            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-            
-            guard let jsonParsed = json as? [String: Any],
-                let list = jsonParsed["list"] as? [Any] else { return [] }
-            
-            
-            let result = list.compactMap { raw -> Weather? in 
-                guard let item = raw as? [String:Any],
-                    let date = item["dt"] as? Double else { return nil }
-                
-                guard let main = item["main"] as? [String:Any],
-                    let temp = main["temp"] as? Double,
-                    let pressure = main["pressure"] as? Double,
-                    let humidity = main["humidity"] as? Int else { return nil }
-                
-                
-                guard let weatherValues = item["weather"] as? [Any],
-                    let firstWeatherValues = weatherValues.first as? [String:Any],
-                    let weatherName = firstWeatherValues["main"] as? String,
-                    let weatherIcon = firstWeatherValues["icon"] as? String else { return  nil }
-                
-                
-                guard let windValues = item["wind"] as? [String: Any],
-                    let windSpeed = windValues["speed"] as? Double,
-                    let windDegrees = windValues["deg"] as? Double else { return nil }
-                
-                var weather = Weather()
-                
-                weather.date = date
-                weather.temp = temp
-                weather.pressure = pressure
-                weather.humidity = humidity
-                weather.weatherName = weatherName
-                weather.weatherIcon = weatherIcon
-                weather.windSpeed = windSpeed
-                weather.windDegrees = windDegrees
-                
-                return weather
-            }
-            
-            return result
-        }
-        catch {
-            print(error.localizedDescription)
-            return []
-        }
-    }
-}
-
-
-
-class URLSessionWeatherService: WeatherServiceProtocol {
-    let baseUrl = "api.openweathermap.org"
-    let parser: WeatherParser
-    
-    init(parser: WeatherParser) {
-        self.parser = parser
-    }
-    
-    func loadWeatherData( city: String ) {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration)
-        
-        var components = URLComponents()
-        components.scheme = "http"
-        components.host = baseUrl
-        components.path = "/data/2.5/forecast"
-        
-        components.queryItems = [
-            URLQueryItem(name: "q", value: city),
-            URLQueryItem(name: "units", value: "metric"),
-            URLQueryItem(name: "appid", value: apiKey)
-        ]
-        
-        
-        do {
-            let request = try URLRequest(url: components.url!, method: .get)
-            let task = session.dataTask(with: request) { (data, response, error) in
-                guard let data = data else {
-                    return
-                }
-                
-                var weathers: [Weather] = self.parser.parse(data: data)
-                print(weathers)
-            }
-            
-            task.resume()
-        }
-        catch {
-            print(error.localizedDescription)
-        }
-    }
-}
 
 class SwiftyJSONParser: WeatherParser {
     func parse(data: Data) -> [Weather] {
@@ -182,6 +86,10 @@ class AlamofireWeatherService: WeatherServiceProtocol {
     let baseUrl = "http://api.openweathermap.org"
     let parser: WeatherParser
     
+    enum ServiceError: Error {
+        case notFound, noApiKey
+    }
+    
     func save( weathers: [Weather], for cityName: String ) {
         do {
             let realm = try Realm()
@@ -203,29 +111,49 @@ class AlamofireWeatherService: WeatherServiceProtocol {
         self.parser = parser
     }
     
-    func loadWeatherData( city: String ) {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { return }
-        let path = "/data/2.5/forecast"
+    func loadImageData( for path: String ) -> Promise<UIImage> {
+        guard let url = URL(string: path) else { return Promise(error: ServiceError.notFound) }
         
-        let paramaters: Parameters = [
-            "q" : city,
-            "units": "metric",
-            "appid": apiKey
-        ]
         
-        let url = baseUrl + path
-        
-        AF.request(url, parameters: paramaters).responseJSON { (response) in
-            if let error = response.error {
-                print(error)
+        return URLSession.shared.dataTask(.promise, with: url) // Promise<(Data, Response)>
+            .then(on: DispatchQueue.global()) { (data, response) -> Promise<UIImage> in
+                if let image = UIImage(data: data) {
+                    return Promise.value(image)
+                }
+                else {
+                    return Promise(error: ServiceError.notFound)
+                }
+        }
+    }
+    
+    func loadWeatherData( city: String ) -> Promise<String> {
+        return Promise { (resolver) in
+            guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENWEATHER_KEY") as? String else { resolver.reject(ServiceError.noApiKey); return }
+            let path = "/data/2.5/forecast"
+            
+            let paramaters: Parameters = [
+                "q" : city,
+                "units": "metric",
+                "appid": apiKey
+            ]
+            
+            let url = baseUrl + path
+            
+            Alamofire.request(url, parameters: paramaters).responseJSON { (response) in
+                if let error = response.error {
+                    print(error)
+                }
+                else {
+                    guard let data = response.data else { return }
+                    
+                    var weathers: [Weather] = self.parser.parse(data: data)
+                    self.save(weathers: weathers, for: city)
+                    print(weathers)
+                    
+                    resolver.fulfill(city)
+                }
             }
-            else {
-                guard let data = response.data else { return }
-                
-                var weathers: [Weather] = self.parser.parse(data: data)
-                self.save(weathers: weathers, for: city)
-                print(weathers)
-            }
+            
         }
     }
 }

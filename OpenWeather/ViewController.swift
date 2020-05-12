@@ -26,10 +26,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTitleLabel: UILabel!
     @IBOutlet weak var goButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         scrollView.addGestureRecognizer(tapGesture)
         
@@ -176,18 +174,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func goNext(_ sender: Any) {
-        PurchaseManager.shared.makePayment(product: .disable_ads)
-        
-//        Analytics.logEvent("goNextClicked", parameters: [:])
-//        guard let email = loginTextField.text, let password = passwordTextField.text else { return }
-//        
-//        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-//            print(result?.user.uid)
-//            
-//            if result?.user != nil {
-//                self.performSegue(withIdentifier: "next", sender: self)
-//            }
-//        }
+        self.performSegue(withIdentifier: "next", sender: self)
     }
     
     func createCities() {

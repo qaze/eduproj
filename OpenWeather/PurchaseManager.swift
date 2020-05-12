@@ -10,14 +10,12 @@ import Foundation
 import StoreKit
 
 enum Products: String, CaseIterable {
-    case disable_ads = "com.openweather.disableads"
+    case disable_ads = "com.openweather.disableads2"
 }
 
 protocol PurchaseListener: class {
     func productBought( product: Products )
 }
-
-
 
 class PurchaseManager: NSObject {
     private var availableProducts = [SKProduct]()

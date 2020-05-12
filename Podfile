@@ -10,4 +10,6 @@ target 'OpenWeather' do
   pod 'Firebase/Auth'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Database'
+  pod "PromiseKit"
+  pod 'PromiseKit/Alamofire'
 end

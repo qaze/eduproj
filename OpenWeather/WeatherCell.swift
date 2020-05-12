@@ -7,10 +7,11 @@
 //
 
 import UIKit
-
+import PromiseKit
 
 class WeatherCell : UICollectionViewCell {
     @IBOutlet weak var mainLabel: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
     
     @IBOutlet weak var shadowView: UIView! {
         didSet {
@@ -21,13 +22,13 @@ class WeatherCell : UICollectionViewCell {
             self.shadowView.clipsToBounds = false
         }
     }
-
+    
     @IBOutlet weak var containerView: UIView! {
         didSet {
             self.containerView.clipsToBounds = true
         }
     }
-
+    
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()

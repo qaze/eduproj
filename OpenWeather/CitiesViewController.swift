@@ -10,52 +10,42 @@ import UIKit
 import RealmSwift
 import FirebaseDatabase
 
-
-
 class CitiesViewController: UITableViewController {
-    var sections: [Results<City>] = []
-    var tokens: [NotificationToken] = []
+    var cities: Results<City>?
+    var token: NotificationToken?
     var requestHandler: UInt = 0
     
-    
-    func prepareSections() {
-        do {
-            let realm = try Realm()
-            let citiesLetters = Array( Set( realm.objects(City.self).compactMap{ $0.name.first?.lowercased() } ) ).sorted()
-            sections = citiesLetters.map{ realm.objects(City.self).filter("name BEGINSWITH[c] %s", $0) }
-            tokens.removeAll()
-            sections.enumerated().forEach{ observeChanges(for: $0.offset, results: $0.element) }
-            tableView.reloadData()
-        }
-        catch {
-            print(error.localizedDescription)
-        }
-        
-        
-    }
-    
-    func observeChanges(for section: Int, results: Results<City>) {
-        tokens.append( results.observe { (changes) in
+    func observeChanges(results: Results<City>) {
+        token = results.observe { (changes) in
             switch changes {
             case .initial:
-                self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+                self.tableView.reloadData()
                 
             case .update(_, let deletions, let insertions, let modifications):
                 self.tableView.beginUpdates()
-                self.tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: section) }, with: .automatic)
-                self.tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: section) }, with: .automatic)
-                self.tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: section) }, with: .automatic)
+                self.tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
                 self.tableView.endUpdates()
                 
             case .error(let error):
                 print(error.localizedDescription)
             }
-        })
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareSections()
+        
+        do {
+            let realm = try Realm()
+            let request = realm.objects(City.self).sorted(byKeyPath: "name")
+            cities = request
+            observeChanges(results: request)
+        }   
+        catch {
+            print(error.localizedDescription)
+        }
         
         let db = Database.database().reference()
         requestHandler = db.child("cities").observe(.value) { (snapshot) in
@@ -65,43 +55,21 @@ class CitiesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].count
+        return cities?.count ?? 0
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].first?.name.first?.uppercased()
-    }
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        // Делаем массив плоским
-        // Например [[Москва, Мурманск], [Самара, Суздаль]] -> [Москва, Мурманск, Самара, Суздаль]
-        let sectionsJoined = sections.joined()
-        
-        // Трансформируем наш "плоский" массив городов в массив первых букв названий городов
-        let letterArray = sectionsJoined.compactMap{ $0.name.first?.uppercased() }
-        
-        // Делаем Set из массива чтобы все неуникальные буквы пропали
-        let set = Set(letterArray)
-        
-        
-        // Возвращаем массив уникальных букв предварительно его отсортировав
-        return Array(set).sorted()
+        return 1
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? CityCell 
+        guard let city = cities?[indexPath.row], 
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as? CityCell 
             else { fatalError() }
         
-        let city = sections[indexPath.section][indexPath.row]
         cell.nameLabel.text = city.name
         cell.city = city
-        //        cell.avatarImageView.image = city.image
-        
         return cell
     }
     
@@ -121,12 +89,6 @@ class CitiesViewController: UITableViewController {
             realm.add(newCity, update: .modified)
             
             try realm.commitWrite()
-            
-            if let firstLetter = name.first?.uppercased(),
-                let currentLetters = sectionIndexTitles(for: tableView),
-                !currentLetters.contains(firstLetter) {
-                prepareSections()
-            }
             
             return newCity.id
         }
@@ -171,7 +133,7 @@ class CitiesViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let city = sections[indexPath.section][indexPath.row]
+        guard let city = cities?[indexPath.row] else { return }
         
         if editingStyle == .delete {
             do {

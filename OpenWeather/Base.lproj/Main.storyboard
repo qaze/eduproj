@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ANl-Du-m0w">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -109,6 +109,48 @@
             </objects>
             <point key="canvasLocation" x="1971" y="54"/>
         </scene>
+        <!--Test Table View Controller-->
+        <scene sceneID="YRM-k7-rQG">
+            <objects>
+                <tableViewController id="Guj-2F-CA3" customClass="TestTableViewController" customModule="OpenWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nrK-sh-oAk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="testCell" rowHeight="141" id="Dsn-fC-xtf" customClass="TestTableCell" customModule="OpenWeather" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="141"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dsn-fC-xtf" id="owK-N9-cOq">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="141"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="bmx-9X-EIb">
+                                            <rect key="frame" x="87" y="6" width="240" height="128"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="bmx-9X-EIb" firstAttribute="leading" secondItem="owK-N9-cOq" secondAttribute="leading" constant="87" id="LdR-c0-hCg"/>
+                                        <constraint firstAttribute="trailing" secondItem="bmx-9X-EIb" secondAttribute="trailing" constant="87" id="NUd-Mw-Jc8"/>
+                                        <constraint firstItem="bmx-9X-EIb" firstAttribute="top" secondItem="owK-N9-cOq" secondAttribute="top" constant="6" id="ZOO-FL-ELo"/>
+                                        <constraint firstAttribute="bottom" secondItem="bmx-9X-EIb" secondAttribute="bottom" constant="7" id="egB-sG-ibG"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="iconImageView" destination="bmx-9X-EIb" id="ZMP-sq-DSh"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Guj-2F-CA3" id="gwM-Zy-ihb"/>
+                            <outlet property="delegate" destination="Guj-2F-CA3" id="9Gi-OS-D2d"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Ah-S6-UoL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2237.68115942029" y="822.99107142857144"/>
+        </scene>
         <!--Item-->
         <scene sceneID="TaV-Op-gk8">
             <objects>
@@ -148,13 +190,21 @@
         <scene sceneID="qoO-FQ-J9e">
             <objects>
                 <tableViewController modalPresentationStyle="fullScreen" id="UZK-Zs-er7" customClass="CitiesViewController" customModule="OpenWeather" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="foK-mB-tBh">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" id="foK-mB-tBh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AdsCell" rowHeight="64" id="sME-6N-jgl" customClass="AdsCell" customModule="OpenWeather" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="64"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sME-6N-jgl" id="b57-Uk-mVt">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DefaultCell" rowHeight="110" id="qDt-Pu-Coh" customClass="CityCell" customModule="OpenWeather" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="110"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qDt-Pu-Coh" id="Bpr-Uq-hpg">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
@@ -202,7 +252,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ggz-Sy-DZH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4367" y="54"/>
+            <point key="canvasLocation" x="4366.666666666667" y="53.571428571428569"/>
         </scene>
         <!--Weather View Controller-->
         <scene sceneID="Ebj-Tl-Sir">
@@ -232,17 +282,24 @@
                                             <rect key="frame" x="5" y="5" width="118" height="118"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJO-hE-GeO">
-                                                    <rect key="frame" x="33" y="35" width="52" height="48"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                                    <rect key="frame" x="41.333333333333329" y="73" width="35.333333333333329" height="31.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-w1-azc">
+                                                    <rect key="frame" x="8" y="8" width="102" height="57"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
+                                                <constraint firstItem="OiI-w1-azc" firstAttribute="top" secondItem="m8e-BV-BjQ" secondAttribute="top" constant="8" id="AIt-RD-O2Y"/>
+                                                <constraint firstAttribute="trailing" secondItem="OiI-w1-azc" secondAttribute="trailing" constant="8" id="KUK-ur-nDS"/>
+                                                <constraint firstItem="VJO-hE-GeO" firstAttribute="top" secondItem="OiI-w1-azc" secondAttribute="bottom" constant="8" id="XnK-SU-pw7"/>
                                                 <constraint firstAttribute="width" secondItem="m8e-BV-BjQ" secondAttribute="height" multiplier="1:1" id="bMD-0y-tqe"/>
                                                 <constraint firstItem="VJO-hE-GeO" firstAttribute="centerX" secondItem="m8e-BV-BjQ" secondAttribute="centerX" id="oDV-59-5gL"/>
-                                                <constraint firstItem="VJO-hE-GeO" firstAttribute="centerY" secondItem="m8e-BV-BjQ" secondAttribute="centerY" id="y9Z-bO-Xg7"/>
+                                                <constraint firstItem="OiI-w1-azc" firstAttribute="leading" secondItem="m8e-BV-BjQ" secondAttribute="leading" constant="8" id="oIg-MI-aFf"/>
+                                                <constraint firstItem="VJO-hE-GeO" firstAttribute="centerY" secondItem="m8e-BV-BjQ" secondAttribute="centerY" multiplier="1.5" id="y9Z-bO-Xg7"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -260,6 +317,7 @@
                                     <outlet property="containerView" destination="m8e-BV-BjQ" id="DCL-UZ-Jbe"/>
                                     <outlet property="mainLabel" destination="VJO-hE-GeO" id="3YC-9M-8Su"/>
                                     <outlet property="shadowView" destination="iHh-6d-XUn" id="Af0-HB-Iqc"/>
+                                    <outlet property="weatherIcon" destination="OiI-w1-azc" id="sma-5J-mpi"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -272,10 +330,11 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DFi-Y5-84i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5142" y="54"/>
+            <point key="canvasLocation" x="5140.579710144928" y="53.571428571428569"/>
         </scene>
     </scenes>
     <resources>
+        <image name="1" width="700" height="467"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
     </resources>
 </document>

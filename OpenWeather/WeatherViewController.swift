@@ -8,10 +8,11 @@
 
 import UIKit
 import RealmSwift
+import PromiseKit
 
 class WeatherViewController: UICollectionViewController {
     let weatherService: WeatherServiceProtocol = AlamofireWeatherService(parser: SwiftyJSONParser())
-    
+    lazy var photoCache = PhotoCache(collection: self.collectionView)
     var name: String?
     var weatherList: List<Weather>?
     var city: City? 
@@ -21,9 +22,12 @@ class WeatherViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         observeWeathers()
-        if let name = name {
-            weatherService.loadWeatherData(city: name)
+        weatherService
+            .loadWeatherData(city: city!.name)
+            .done(on: DispatchQueue.main) { (name) in
+                self.collectionView.reloadData()
         }
+        
     }
     
     func observeWeathers() {
@@ -52,11 +56,15 @@ class WeatherViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TestCell", for: indexPath) as? WeatherCell else {
+        guard
+            let weather = weatherList?[indexPath.row],
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TestCell", for: indexPath) as? WeatherCell else {
             fatalError()
         }
         
-        cell.mainLabel.text = "\(weatherList?[indexPath.row].temp ?? 0)"
+        cell.mainLabel.text = "\(weather.temp)"
+        cell.weatherIcon.image = photoCache.image(indexPath: indexPath, at: "http://api.openweathermap.org/img/w/\(weather.weatherIcon).png") 
+        
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
         

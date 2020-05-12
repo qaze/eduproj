@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A42FCA952441BE5600516C97 /* AdsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42FCA942441BE5600516C97 /* AdsCell.swift */; };
+		A45F0AE7246B1CF600087036 /* PhotoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45F0AE6246B1CF600087036 /* PhotoCache.swift */; };
 		A46F091E24387A370084E9F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A46F091D24387A370084E9F5 /* GoogleService-Info.plist */; };
 		A475D9E423DF58AE00886BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475D9E323DF58AE00886BC7 /* AppDelegate.swift */; };
 		A475D9E623DF58AE00886BC7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475D9E523DF58AE00886BC7 /* SceneDelegate.swift */; };
@@ -28,12 +30,15 @@
 		A4A6888D240A65F100729EB6 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A6888C240A65F100729EB6 /* CustomInteractiveTransition.swift */; };
 		A4C3A364240EC6A500C9A943 /* DotAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3A363240EC6A500C9A943 /* DotAnimator.swift */; };
 		A4C3A366240ED21700C9A943 /* PhotoSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3A365240ED21700C9A943 /* PhotoSwipeViewController.swift */; };
+		A4D77D2E244F675A0014BC98 /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D77D2D244F675A0014BC98 /* TestTableViewController.swift */; };
 		CA994DB072C98B3E40051FF7 /* Pods_OpenWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420439D7CF7AD11BC03FCB84 /* Pods_OpenWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		420439D7CF7AD11BC03FCB84 /* Pods_OpenWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64ADFB9D7782E7FA2938733E /* Pods-OpenWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenWeather.release.xcconfig"; path = "Target Support Files/Pods-OpenWeather/Pods-OpenWeather.release.xcconfig"; sourceTree = "<group>"; };
+		A42FCA942441BE5600516C97 /* AdsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCell.swift; sourceTree = "<group>"; };
+		A45F0AE6246B1CF600087036 /* PhotoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCache.swift; sourceTree = "<group>"; };
 		A46F091D24387A370084E9F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A475D9E023DF58AE00886BC7 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A475D9E323DF58AE00886BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +65,7 @@
 		A4A8B494241CC2DB004D7833 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
 		A4C3A363240EC6A500C9A943 /* DotAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotAnimator.swift; sourceTree = "<group>"; };
 		A4C3A365240ED21700C9A943 /* PhotoSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSwipeViewController.swift; sourceTree = "<group>"; };
+		A4D77D2D244F675A0014BC98 /* TestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewController.swift; sourceTree = "<group>"; };
 		E4946A53968746F19F4F239E /* Pods-OpenWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenWeather.debug.xcconfig"; path = "Target Support Files/Pods-OpenWeather/Pods-OpenWeather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +133,9 @@
 				A4A081E7241B8CD7009FDC7A /* WeatherCell.swift */,
 				A4A081E9241B8D04009FDC7A /* WeatherLayout.swift */,
 				A481D3CA243CFC34002BC1A6 /* PurchaseManager.swift */,
+				A42FCA942441BE5600516C97 /* AdsCell.swift */,
+				A4D77D2D244F675A0014BC98 /* TestTableViewController.swift */,
+				A45F0AE6246B1CF600087036 /* PhotoCache.swift */,
 			);
 			path = OpenWeather;
 			sourceTree = "<group>";
@@ -281,6 +290,7 @@
 				A475D9E823DF58AE00886BC7 /* ViewController.swift in Sources */,
 				A4A081E8241B8CD7009FDC7A /* WeatherCell.swift in Sources */,
 				A475D9E423DF58AE00886BC7 /* AppDelegate.swift in Sources */,
+				A42FCA952441BE5600516C97 /* AdsCell.swift in Sources */,
 				A4A081E4241B8C55009FDC7A /* CityCell.swift in Sources */,
 				A4A68889240A5FF500729EB6 /* CustomNavigationController.swift in Sources */,
 				A4A081E2241B8848009FDC7A /* WeatherService.swift in Sources */,
@@ -291,7 +301,9 @@
 				A4A6888B240A611600729EB6 /* CustomPopPushTranitioning.swift in Sources */,
 				A4C3A364240EC6A500C9A943 /* DotAnimator.swift in Sources */,
 				A4A081EA241B8D04009FDC7A /* WeatherLayout.swift in Sources */,
+				A4D77D2E244F675A0014BC98 /* TestTableViewController.swift in Sources */,
 				A4A081E6241B8CC8009FDC7A /* WeatherViewController.swift in Sources */,
+				A45F0AE7246B1CF600087036 /* PhotoCache.swift in Sources */,
 				A4A6888D240A65F100729EB6 /* CustomInteractiveTransition.swift in Sources */,
 				A4A68887240A5A6F00729EB6 /* CustomAnimationTransitioning.swift in Sources */,
 			);
